@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterEngTextbook</title>
+    <style>
+        #audioContainer{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            padding: 12px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            display: none; /* 默认隐藏 */
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h2>教材</h2>
+    <p><a href="https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book%201.pdf">基础教程-第一册</a></p>
+    <h2>配套音频</h2>
+    <h3>第一册</h3>
+    <h4> Starter Unit</h4>
+    <p>A：<button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D1.mp3">Conversation 1 </button> 
+        <button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D2.mp3">Conversation 2 </button>
+        <button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D3.mp3">Conversation 3 </button>
+        <button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D4.mp3">Conversation 4 </button>
+        <button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P1.mp3">Passage 1 </button>
+        <button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P2.mp3">Passage 2 </button>
+    </p>
+    <p>C：<button class="audio-btn" data-audio="https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20C.mp3">Vocabulary & Phrases </button>
+    </p>
+    <div id="audioContainer">
+        <audio controls id="audioPlayer">
+    </div>
+    <script>
+        const audioContainer = document.getElementById('audioContainer');
+        const audioPlayer = document.getElementById('audioPlayer');
+        let currentAudioSrc = ""; // 记录当前正在播放的音频地址
+
+        // 给所有 .audio-btn 批量绑定点击事件
+        document.querySelectorAll('.audio-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const audioSrc = this.dataset.audio;
+
+                // 判断：点击的是当前正在播放的音频
+                if (audioSrc === currentAudioSrc && audioContainer.style.display === 'block') {
+                    // 停止播放，重置，隐藏播放器
+                    audioPlayer.pause();
+                    audioPlayer.currentTime = 0;
+                    audioContainer.style.display = 'none';
+                    currentAudioSrc = "";
+                } else {
+                    // 切换为新音频，加载并播放
+                    audioPlayer.src = audioSrc;
+                    currentAudioSrc = audioSrc;
+                    audioContainer.style.display = 'block';
+                    audioPlayer.load();
+                    audioPlayer.play().catch(function (err) {
+                        console.log("浏览器自动播放限制，请手动点击播放器播放", err);
+                    });
+                }
+            });
+        });
+        </script>
+    </body>
+</html>
