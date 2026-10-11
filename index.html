@@ -50,7 +50,7 @@
             <option value="audio">配套音频</option>
         </select>
 
-        <label>单元：</label>
+        <label id="level4-label">单元：</label>
         <select id="level4" disabled style="display:none">
             <option value="">请先选择资源类型</option>
         </select>
@@ -65,14 +65,14 @@
     </div>
 
     <script>
-        // ========== 全部教材音频数据，Book1 Starter ~ Unit15 ==========
+        // ========== 全部教材音频数据 ==========
         const bookData = {
             basic: {
                 name: "基础教程",
                 books: {
                     book1: {
                         name: "第一册",
-                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 1.pdf",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book%201.pdf",
                         units: {
                             starter: {
                                 name: "Starter Unit",
@@ -332,7 +332,20 @@
             },
             advance: {
                 name: "提高教程",
-                books: {}
+                books: {
+                    book4: {
+                        name: "全一册",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 4.pdf",
+                        lessonRanges: [
+                            {val:"01-12", name:"Lesson 01~12", start:1, end:12},
+                            {val:"13-24", name:"Lesson 13~24", start:13, end:24},
+                            {val:"25-36", name:"Lesson 25~36", start:25, end:36},
+                            {val:"37-48", name:"Lesson 37~48", start:37, end:48},
+                            {val:"49-60", name:"Lesson 49~60", start:49, end:60},
+                            {val:"61-72", name:"Lesson 61~72", start:61, end:72},
+                        ]
+                    }
+                }
             }
         };
 
@@ -340,6 +353,7 @@
         const level2Sel = document.getElementById('level2');
         const level3Sel = document.getElementById('level3');
         const level4Sel = document.getElementById('level4');
+        const level4Label = document.getElementById('level4-label');
         const contentBox = document.getElementById('contentBox');
 
         // 一级：教程类型 → 填充册数
@@ -352,6 +366,7 @@
             level4Sel.disabled = true;
             level4Sel.style.display = 'none';
             contentBox.innerHTML = '';
+            level4Label.innerText = "单元：";
 
             if(!val){
                 level2Sel.disabled = true;
@@ -389,7 +404,7 @@
             const bookInfo = bookData[typeVal].books[bookVal];
 
             // 重置第四级
-            level4Sel.innerHTML = '<option value="">请选择单元</option>';
+            level4Sel.innerHTML = '<option value="">请选择</option>';
             level4Sel.value = "";
             level4Sel.disabled = true;
             level4Sel.style.display = 'none';
@@ -404,45 +419,77 @@
                     <p><a href="${bookInfo.pdfUrl}" target="_blank">${bookData[typeVal].name}-${bookInfo.name}</a></p>
                 `;
             }else if(resType === "audio"){
-                // 配套音频：解锁第四级单元
+                // 配套音频：解锁第四级
                 level4Sel.style.display = '';
                 level4Sel.disabled = false;
-                const units = bookInfo.units;
-                for(let key in units){
-                    const opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = units[key].name;
-                    level4Sel.appendChild(opt);
+                if(typeVal === "advance"){
+                    // 提高教程：第四级标签改为【课序号】，选项为Lesson区间
+                    level4Label.innerText = "课序号：";
+                    const ranges = bookInfo.lessonRanges;
+                    ranges.forEach(range=>{
+                        const opt = document.createElement('option');
+                        opt.value = range.val;
+                        opt.innerText = range.name;
+                        level4Sel.appendChild(opt);
+                    })
+                }else{
+                    // 基础教程：保持原有【单元】
+                    level4Label.innerText = "单元：";
+                    const units = bookInfo.units;
+                    for(let key in units){
+                        const opt = document.createElement('option');
+                        opt.value = key;
+                        opt.innerText = units[key].name;
+                        level4Sel.appendChild(opt);
+                    }
                 }
             }
         })
 
-        // 四级：单元（仅配套音频时出现）
+        // 四级：单元 / 课序号
         level4Sel.addEventListener('change', function(){
             const typeVal = level1Sel.value;
             const bookVal = level2Sel.value;
-            const unitVal = this.value;
+            const selectVal = this.value;
             contentBox.innerHTML = '';
-            if(!unitVal) return;
+            if(!selectVal) return;
 
             const bookInfo = bookData[typeVal].books[bookVal];
-            const unitInfo = bookInfo.units[unitVal];
 
-            // 渲染配套音频，A/C/D分组，与你原始HTML格式一致
-            let html = `
-                <h2>配套音频</h2>
-                <h3>${bookInfo.name}</h3>
-                <h4> ${unitInfo.name}</h4>
-            `;
-            const groups = unitInfo.groups;
-            for(let gName in groups){
-                html += `<p>${gName}：`;
-                groups[gName].forEach(item=>{
-                    html += `<button class="audio-btn" data-audio="${item.url}">${item.label}</button> `
-                })
-                html += `</p>`;
+            if(typeVal === "advance"){
+                // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
+                const rangeItem = bookInfo.lessonRanges.find(r=>r.val === selectVal);
+                if(!rangeItem) return;
+                let html = `<h2>配套音频</h2><h3>${bookInfo.name}</h3><h4>${rangeItem.name}</h4>`;
+                let count = 0;
+                for(let i = rangeItem.start; i <= rangeItem.end; i++){
+                    const numStr = String(i).padStart(2,'0');
+                    const audioUrl = `https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 04/Lesson ${numStr}.mp3`;
+                    html += `<button class="audio-btn" data-audio="${audioUrl}">Lesson ${numStr}</button>`;
+                    count++;
+                    if(count %4 ===0){
+                        html += "<br/>"; // 每4个换行
+                    }
+                }
+                contentBox.innerHTML = html;
+            }else{
+                // ========== 基础教程原有单元逻辑不变 ==========
+                const unitInfo = bookInfo.units[selectVal];
+                let html = `
+                    <h2>配套音频</h2>
+                    <h3>${bookInfo.name}</h3>
+                    <h4> ${unitInfo.name}</h4>
+                `;
+                const groups = unitInfo.groups;
+                for(let gName in groups){
+                    html += `<p>${gName}：`;
+                    groups[gName].forEach(item=>{
+                        html += `<button class="audio-btn" data-audio="${item.url}">${item.label}</button> `
+                    })
+                    html += `</p>`;
+                }
+                contentBox.innerHTML = html;
             }
-            contentBox.innerHTML = html;
         })
 
         // ========== 原有完整音频播放器逻辑，原样保留 ==========
