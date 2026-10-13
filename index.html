@@ -78,7 +78,7 @@
                 books: {
                     book1: {
                         name: "第一册",
-                        pdfUrl: "https://gitee.com/G_Cat/EngTextbook/raw/main/Intermediate/Book 1.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 1.pdf",
                         units: {
                             starter: {
                                 name: "Starter Unit",
@@ -326,7 +326,7 @@
                     },
                     book2: {
                         name: "第二册",
-                        pdfUrl: "https://gitee.com/G_Cat/EngTextbook/raw/main/Intermediate/Book 2.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 2.pdf",
                         units: {
                             unit1: {
                                 name: "Unit 1",
@@ -574,7 +574,7 @@
                     },
                     book3: {
                         name: "第三册",
-                        pdfUrl: "https://gitee.com/G_Cat/EngTextbook/raw/main/Intermediate/Book 3.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 3.pdf",
                         units: {
                             unit1: {
                                 name: "Unit 1",
@@ -820,7 +820,7 @@
                 books: {
                     book4: {
                         name: "全一册",
-                        pdfUrl: "https://gitee.com/G_Cat/EngTextbook/raw/main/Intermediate/Book 4.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 4.pdf",
                         lessonRanges: [
                             {val:"01-12", name:"Lesson 01~12", start:1, end:12},
                             {val:"13-24", name:"Lesson 13~24", start:13, end:24},
@@ -898,37 +898,17 @@
             if(!resType) return;
 
             if(resType === "textbook"){
-                // 教材：直接渲染，无第四级，按钮点击内置PDF.js预览
+                // 教材：直接渲染，无第四级，按钮点击打开github raw pdf在线预览
                 contentBox.innerHTML = `
                     <h2>教材</h2>
                     <p>
                         <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookData[typeVal].name}-${bookInfo.name}</button>
                     </p>
-                    <!-- PDF预览容器，默认隐藏 -->
-                    <div id="pdfPreviewWrap" style="width:100%;height:80vh;margin-top:12px;display:none;border:1px solid #ccc;">
-                        <iframe id="pdfIframe" width="100%" height="100%" frameborder="0"></iframe>
-                    </div>
                 `;
                 const pdfBtn = contentBox.querySelector(".textbook-btn");
-                const previewWrap = contentBox.querySelector("#pdfPreviewWrap");
-                const pdfIframe = contentBox.querySelector("#pdfIframe");
-            
-                pdfBtn.onclick = async function(){
-                    const rawUrl = this.dataset.pdf;
-                    try{
-                        // fetch获取PDF二进制blob
-                        const res = await fetch(rawUrl);
-                        const blobData = await res.blob();
-                        // 生成临时内存URL，不会暴露原始gitee raw链接
-                        const localBlobUrl = URL.createObjectURL(blobData);
-                        // 使用Mozilla PDF.js官方viewer CDN预览
-                        const viewerUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(localBlobUrl)}`;
-                        pdfIframe.src = viewerUrl;
-                        previewWrap.style.display = "block";
-                    }catch(err){
-                        alert("加载PDF失败，跨域限制，请将页面部署到Gitee Pages后使用");
-                        console.error(err);
-                    }
+                pdfBtn.onclick = function(){
+                    const pdfLink = this.dataset.pdf;
+                    window.open(pdfLink, "_blank");
                 }
             }else if(resType === "audio"){
                 // 配套音频：解锁第四级
