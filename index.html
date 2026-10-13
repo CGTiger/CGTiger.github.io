@@ -903,12 +903,14 @@
                     <p>
                         <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookData[typeVal].name}-${bookInfo.name}</button>
                     </p>
+                    <iframe id="pdfFrame" style="width:100%;height:80vh;display:none;border:1px solid #aaa;"></iframe>
                 `;
                 const pdfBtn = contentBox.querySelector(".textbook-btn");
+                const pdfFrame = contentBox.querySelector("#pdfFrame");
                 pdfBtn.onclick = function(){
-                    const rawUrl = encodeURIComponent(this.dataset.pdf);
-                    const previewUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${rawUrl}`;
-                    window.open(previewUrl, "_blank");
+                    const pdfLink = this.dataset.pdf;
+                    pdfFrame.src = pdfLink;
+                    pdfFrame.style.display = "block";
                 }
             }else if(resType === "audio"){
                 // 配套音频：解锁第四级
