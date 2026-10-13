@@ -15,6 +15,12 @@
             padding: 5px 8px;
             cursor: pointer;
         }
+        .textbook-btn{
+            padding:8px 16px;
+            margin:6px;
+            font-size:16px;
+            cursor:pointer;
+        }
         #audioContainer{
             position: fixed;
             bottom: 0;
@@ -72,7 +78,7 @@
                 books: {
                     book1: {
                         name: "第一册",
-                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book%201.pdf",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book%201.pdf#toolbar=0",
                         units: {
                             starter: {
                                 name: "Starter Unit",
@@ -320,7 +326,7 @@
                     },
                     book2: {
                         name: "第二册",
-                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 2.pdf",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 2.pdf#toolbar=0",
                         units: {
                             unit1: {
                                 name: "Unit 1",
@@ -568,7 +574,7 @@
                     },
                     book3: {
                         name: "第三册",
-                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 3.pdf",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 3.pdf#toolbar=0",
                         units: {
                             unit1: {
                                 name: "Unit 1",
@@ -814,7 +820,7 @@
                 books: {
                     book4: {
                         name: "全一册",
-                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 4.pdf",
+                        pdfUrl: "https://gitee.com/G_Cat/CGTiger.github.io/raw/main/Textbook/Book 4.pdf#toolbar=0",
                         lessonRanges: [
                             {val:"01-12", name:"Lesson 01~12", start:1, end:12},
                             {val:"13-24", name:"Lesson 13~24", start:13, end:24},
@@ -892,11 +898,19 @@
             if(!resType) return;
 
             if(resType === "textbook"){
-                // 教材：直接渲染，无第四级
+                // 教材：直接渲染，无第四级，a标签改为按钮
                 contentBox.innerHTML = `
                     <h2>教材</h2>
-                    <p><a href="${bookInfo.pdfUrl}" target="_blank">${bookData[typeVal].name}-${bookInfo.name}</a></p>
+                    <p>
+                        <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookData[typeVal].name}-${bookInfo.name}</button>
+                    </p>
                 `;
+                // 绑定按钮点击事件，新窗口打开PDF，追加#toolbar=0隐藏预览工具栏
+                const pdfBtn = contentBox.querySelector(".textbook-btn");
+                pdfBtn.onclick = function(){
+                    const pdfLink = this.dataset.pdf + "#toolbar=0";
+                    window.open(pdfLink, "_blank");
+                }
             }else if(resType === "audio"){
                 // 配套音频：解锁第四级
                 level4Sel.style.display = '';
@@ -996,6 +1010,33 @@
                         console.log("浏览器自动播放限制，请手动点击播放器播放", err);
                     });
                 }
+            }
+        });
+        // 禁用右键菜单
+        document.addEventListener('contextmenu',e=>e.preventDefault());
+        // 简单检测开发者工具打开（仅告警，无法彻底阻断）
+        let devOpen = false;
+        const devCheck = function(){
+            const threshold = 160;
+            if(window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold){
+                if(!devOpen){
+                    devOpen = true;
+                    alert("禁止打开开发者工具");
+                }
+            }else{
+                devOpen = false;
+            }
+        };
+        setInterval(devCheck,1000);
+        // 禁用F12、Ctrl+U、Ctrl+Shift+I
+        document.addEventListener('keydown',function(e){
+            if(
+                e.key === 'F12'
+                || (e.ctrlKey && e.key === 'u')
+                || (e.ctrlKey && e.shiftKey && e.key === 'I')
+                || (e.ctrlKey && e.shiftKey && e.key === 'J')
+            ){
+                e.preventDefault();
             }
         });
     </script>
