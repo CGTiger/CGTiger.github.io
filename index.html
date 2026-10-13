@@ -35,41 +35,40 @@
     </style>
 </head>
 <body>
-    <!-- 三级/四级联动选择器 -->
+    <!-- 五级联动选择器 -->
     <div>
-        <label>教程类型：</label>
+        <label>教材级别：</label>
         <select id="level1">
-            <option value="">请选择教程类型</option>
-            <option value="basic">基础教程</option>
-            <option value="advance">提高教程</option>
+            <option value="">请选择教材级别</option>
+            <option value="primary">初级</option>
+            <option value="intermediate">中级</option>
+            <option value="advanced">高级</option>
         </select>
-
-        <label>册数：</label>
+        <label>教程类型：</label>
         <select id="level2" disabled>
+            <option value="">请先选择教材级别</option>
+        </select>
+        <label>册数：</label>
+        <select id="level3" disabled>
             <option value="">请先选择教程类型</option>
         </select>
-
         <label>资源类型：</label>
-        <select id="level3" disabled>
+        <select id="level4" disabled>
             <option value="">请先选择册数</option>
             <option value="textbook">教材</option>
             <option value="audio">配套音频</option>
         </select>
-
-        <label id="level4-label">单元：</label>
-        <select id="level4" disabled style="display:none">
+        <label id="level5-label">单元：</label>
+        <select id="level5" disabled style="display:none">
             <option value="">请先选择资源类型</option>
         </select>
     </div>
-
     <div id="contentBox"></div>
-
     <!-- 底部音频播放器（原有代码完整保留） -->
     <div id="audioContainer">
         <audio controls id="audioPlayer">
         
     </div>
-
     <script>
         // ========== 全部教材音频数据 ==========
         const bookData = {
@@ -78,21 +77,21 @@
                 books: {
                     book1: {
                         name: "第一册",
-                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 1.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Textbook/Book 1.pdf",
                         units: {
                             starter: {
                                 name: "Starter Unit",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D2.mp3"},
-                                        {label:"Conversation 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D3.mp3"},
-                                        {label:"Conversation 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D4.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P2.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D2.mp3"},
+                                        {label:"Conversation 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D3.mp3"},
+                                        {label:"Conversation 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D4.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P2.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Audio/Book%201/Starter%20Unit/Starter%20Unit%20C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20C.mp3"},
                                     ]
                                 }
                             },
@@ -100,13 +99,13 @@
                                 name: "Unit 1",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book%201/Unit%2001/Unit%201%20A%20D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book%201/Unit%2001/Unit%201%20A%20P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book%201/Unit%2001/Unit%201%20A%20P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book%201/Unit%2001/Unit%201%20A%20P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book%201/Unit%2001/Unit%201%20A%20D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book%201/Unit%2001/Unit%201%20A%20P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book%201/Unit%2001/Unit%201%20A%20P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book%201/Unit%2001/Unit%201%20A%20P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book%201/Unit%2001/Unit%201%20C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book%201/Unit%2001/Unit%201%20C.mp3"},
                                     ]
                                 }
                             },
@@ -114,13 +113,13 @@
                                 name: "Unit 2",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 02/Unit 2 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 02/Unit 2 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 02/Unit 2 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 02/Unit 2 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 02/Unit 2 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 02/Unit 2 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 02/Unit 2 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 02/Unit 2 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 02/Unit 2 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 02/Unit 2 C.mp3"},
                                     ]
                                 }
                             },
@@ -128,13 +127,13 @@
                                 name: "Unit 3",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 03/Unit 3 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 03/Unit 3 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 03/Unit 3 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 03/Unit 3 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 03/Unit 3 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 03/Unit 3 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 03/Unit 3 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 03/Unit 3 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 03/Unit 3 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 03/Unit 3 C.mp3"},
                                     ]
                                 }
                             },
@@ -142,15 +141,15 @@
                                 name: "Unit 4",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 04/Unit 4 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 04/Unit 4 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 04/Unit 4 A P2.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 04/Unit 4 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 04/Unit 4 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 04/Unit 4 A P2.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 04/Unit 4 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 04/Unit 4 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 04/Unit 4 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 04/Unit 4 D.mp3"},
                                     ]
                                 }
                             },
@@ -158,16 +157,16 @@
                                 name: "Unit 5",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 05/Unit 5 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 05/Unit 5 D.mp3"},
                                     ]
                                 }
                             },
@@ -175,10 +174,10 @@
                                 name: "Unit 6",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 06/Unit 6 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 06/Unit 6 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 06/Unit 6 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 06/Unit 6 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 06/Unit 6 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 06/Unit 6 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 06/Unit 6 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 06/Unit 6 A P3.mp3"},
                                     ],
                                     C: [
                                         {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 06/Unit 6 C.mp3"},
@@ -189,13 +188,13 @@
                                 name: "Unit 7",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 07/Unit 7 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 07/Unit 7 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 07/Unit 7 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 07/Unit 7 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 07/Unit 7 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 07/Unit 7 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 07/Unit 7 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 07/Unit 7 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 07/Unit 7 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 07/Unit 7 C.mp3"},
                                     ]
                                 }
                             },
@@ -203,16 +202,16 @@
                                 name: "Unit 8",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 08/Unit 8 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 08/Unit 8 D.mp3"},
                                     ]
                                 }
                             },
@@ -220,16 +219,16 @@
                                 name: "Unit 9",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 09/Unit 9 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 09/Unit 9 D.mp3"},
                                     ]
                                 }
                             },
@@ -237,13 +236,13 @@
                                 name: "Unit 10",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 10/Unit 10 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 10/Unit 10 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 10/Unit 10 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 10/Unit 10 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 10/Unit 10 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 10/Unit 10 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 10/Unit 10 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 10/Unit 10 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 10/Unit 10 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 10/Unit 10 C.mp3"},
                                     ]
                                 }
                             },
@@ -251,13 +250,13 @@
                                 name: "Unit 11",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 11/Unit 11 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 11/Unit 11 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 11/Unit 11 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 11/Unit 11 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 11/Unit 11 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 11/Unit 11 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 11/Unit 11 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 11/Unit 11 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 11/Unit 11 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 11/Unit 11 C.mp3"},
                                     ]
                                 }
                             },
@@ -265,16 +264,16 @@
                                 name: "Unit 12",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 12/Unit 12 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 12/Unit 12 D.mp3"},
                                     ]
                                 }
                             },
@@ -282,16 +281,16 @@
                                 name: "Unit 13",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 13/Unit 13 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 13/Unit 13 D.mp3"},
                                     ]
                                 }
                             },
@@ -299,13 +298,13 @@
                                 name: "Unit 14",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 14/Unit 14 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 14/Unit 14 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 14/Unit 14 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 14/Unit 14 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 14/Unit 14 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 14/Unit 14 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 14/Unit 14 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 14/Unit 14 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 14/Unit 14 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 14/Unit 14 C.mp3"},
                                     ]
                                 }
                             },
@@ -313,12 +312,12 @@
                                 name: "Unit 15",
                                 groups: {
                                     A: [
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 15/Unit 15 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 15/Unit 15 A P2.mp3"},
-                                        {label:"Passage 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 15/Unit 15 A P4.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 15/Unit 15 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 15/Unit 15 A P2.mp3"},
+                                        {label:"Passage 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 15/Unit 15 A P4.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 1/Unit 15/Unit 15 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 1/Unit 15/Unit 15 C.mp3"},
                                     ]
                                 }
                             }
@@ -326,22 +325,22 @@
                     },
                     book2: {
                         name: "第二册",
-                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 2.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Textbook/Book 2.pdf",
                         units: {
                             unit1: {
                                 name: "Unit 1",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 01/Unit 1 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 01/Unit 1 D.mp3"},
                                     ]
                                 }
                             },
@@ -349,13 +348,13 @@
                                 name: "Unit 2",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 02/Unit 2 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 02/Unit 2 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 02/Unit 2 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 02/Unit 2 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 02/Unit 2 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 02/Unit 2 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 02/Unit 2 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 02/Unit 2 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 02/Unit 2 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 02/Unit 2 C.mp3"},
                                     ]
                                 }
                             },
@@ -363,13 +362,13 @@
                                 name: "Unit 3",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 03/Unit 3 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 03/Unit 3 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 03/Unit 3 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 03/Unit 3 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 03/Unit 3 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 03/Unit 3 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 03/Unit 3 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 03/Unit 3 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 03/Unit 3 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 03/Unit 3 C.mp3"},
                                     ]
                                 }
                             },
@@ -377,16 +376,16 @@
                                 name: "Unit 4",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 04/Unit 4 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 04/Unit 4 D.mp3"},
                                     ]
                                 }
                             },
@@ -394,13 +393,13 @@
                                 name: "Unit 5",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 05/Unit 5 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 05/Unit 5 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 05/Unit 5 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 05/Unit 5 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 05/Unit 5 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 05/Unit 5 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 05/Unit 5 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 05/Unit 5 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 05/Unit 5 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 05/Unit 5 C.mp3"},
                                     ]
                                 }
                             },
@@ -408,13 +407,13 @@
                                 name: "Unit 6",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 06/Unit 6 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 06/Unit 6 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 06/Unit 6 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 06/Unit 6 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 06/Unit 6 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 06/Unit 6 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 06/Unit 6 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 06/Unit 6 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 06/Unit 6 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 06/Unit 6 C.mp3"},
                                     ]
                                 }
                             },
@@ -422,16 +421,16 @@
                                 name: "Unit 7",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 A P2.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 A P2.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 07/Unit 7 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 07/Unit 7 D.mp3"},
                                     ]
                                 }
                             },
@@ -439,13 +438,13 @@
                                 name: "Unit 8",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 08/Unit 8 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 08/Unit 8 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 08/Unit 8 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 08/Unit 8 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 08/Unit 8 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 08/Unit 8 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 08/Unit 8 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 08/Unit 8 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 08/Unit 8 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 08/Unit 8 C.mp3"},
                                     ]
                                 }
                             },
@@ -453,13 +452,13 @@
                                 name: "Unit 9",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 09/Unit 9 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 09/Unit 9 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 09/Unit 9 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 09/Unit 9 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 09/Unit 9 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 09/Unit 9 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 09/Unit 9 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 09/Unit 9 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 09/Unit 9 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 09/Unit 9 C.mp3"},
                                     ]
                                 }
                             },
@@ -467,16 +466,16 @@
                                 name: "Unit 10",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 10/Unit 10 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 10/Unit 10 D.mp3"},
                                     ]
                                 }
                             },
@@ -484,13 +483,13 @@
                                 name: "Unit 11",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 11/Unit 11 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 11/Unit 11 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 11/Unit 11 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 11/Unit 11 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 11/Unit 11 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 11/Unit 11 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 11/Unit 11 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 11/Unit 11 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 11/Unit 11 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 11/Unit 11 C.mp3"},
                                     ]
                                 }
                             },
@@ -498,16 +497,16 @@
                                 name: "Unit 12",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 12/Unit 12 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 12/Unit 12 D.mp3"},
                                     ]
                                 }
                             },
@@ -515,16 +514,16 @@
                                 name: "Unit 13",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 13/Unit 13 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 13/Unit 13 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 13/Unit 13 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 13/Unit 13 A P3.mp3"},
                                     ],
                                     C: [
                                         {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 13/Unit 13 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 13/Unit 13 D.mp3"},
                                     ]
                                 }
                             },
@@ -532,13 +531,13 @@
                                 name: "Unit 14",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 14/Unit 14 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 14/Unit 14 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 14/Unit 14 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 14/Unit 14 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 14/Unit 14 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 14/Unit 14 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 14/Unit 14 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 14/Unit 14 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 14/Unit 14 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 14/Unit 14 C.mp3"},
                                     ]
                                 }
                             },
@@ -546,13 +545,13 @@
                                 name: "Unit 15",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 15/Unit 15 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 15/Unit 15 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 15/Unit 15 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 15/Unit 15 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 15/Unit 15 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 15/Unit 15 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 15/Unit 15 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 15/Unit 15 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 15/Unit 15 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 15/Unit 15 C.mp3"},
                                     ]
                                 }
                             },
@@ -560,13 +559,13 @@
                                 name: "Unit 16",
                                 groups: {
                                     A: [
-                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 16/Unit 16 A D.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 16/Unit 16 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 16/Unit 16 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 16/Unit 16 A P3.mp3"},
+                                        {label:"Conversation", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 16/Unit 16 A D.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 16/Unit 16 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 16/Unit 16 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 16/Unit 16 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 2/Unit 16/Unit 16 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 2/Unit 16/Unit 16 C.mp3"},
                                     ]
                                 }
                             }
@@ -574,20 +573,20 @@
                     },
                     book3: {
                         name: "第三册",
-                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 3.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Textbook/Book 3.pdf",
                         units: {
                             unit1: {
                                 name: "Unit 1",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 01/Unit 1 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 01/Unit 1 C.mp3"},
                                     ]
                                 }
                             },
@@ -595,14 +594,14 @@
                                 name: "Unit 2",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 02/Unit 2 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 02/Unit 2 C.mp3"},
                                     ]
                                 }
                             },
@@ -610,17 +609,17 @@
                                 name: "Unit 3",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 03/Unit 3 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 03/Unit 3 D.mp3"},
                                     ]
                                 }
                             },
@@ -628,17 +627,17 @@
                                 name: "Unit 4",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 04/Unit 4 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 04/Unit 4 D.mp3"},
                                     ]
                                 }
                             },
@@ -646,14 +645,14 @@
                                 name: "Unit 5",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 05/Unit 5 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 05/Unit 5 C.mp3"},
                                     ]
                                 }
                             },
@@ -661,17 +660,17 @@
                                 name: "Unit 6",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 06/Unit 6 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 06/Unit 6 D.mp3"},
                                     ]
                                 }
                             },
@@ -679,20 +678,20 @@
                                 name: "Unit 7",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"You and Me", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 D S1_You and Me.mp3"},
-                                        {label:"The Internationale(BrE)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 D S2a_The Internationale (BrE Ver).mp3"},
-                                        {label:"The Internationale(FR)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 D S2b_The Internationale (FR Ver).mp3"},
-                                        {label:"The Internationale(CN)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 07/Unit 7 D S2c_The Internationale (CN Ver).mp3"},
+                                        {label:"You and Me", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 D S1_You and Me.mp3"},
+                                        {label:"The Internationale(BrE)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 D S2a_The Internationale (BrE Ver).mp3"},
+                                        {label:"The Internationale(FR)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 D S2b_The Internationale (FR Ver).mp3"},
+                                        {label:"The Internationale(CN)", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 07/Unit 7 D S2c_The Internationale (CN Ver).mp3"},
                                     ]
                                 }
                             },
@@ -700,17 +699,17 @@
                                 name: "Unit 8",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 08/Unit 8 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 08/Unit 8 D.mp3"},
                                     ]
                                 }
                             },
@@ -718,17 +717,17 @@
                                 name: "Unit 9",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 09/Unit 9 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 09/Unit 9 D.mp3"},
                                     ]
                                 }
                             },
@@ -736,14 +735,14 @@
                                 name: "Unit 10",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 10/Unit 10 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 10/Unit 10 C.mp3"},
                                     ]
                                 }
                             },
@@ -751,14 +750,14 @@
                                 name: "Unit 11",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 11/Unit 11 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 11/Unit 11 C.mp3"},
                                     ]
                                 }
                             },
@@ -766,14 +765,14 @@
                                 name: "Unit 12",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 12/Unit 12 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 12/Unit 12 C.mp3"},
                                     ]
                                 }
                             },
@@ -781,14 +780,14 @@
                                 name: "Unit 13",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 13/Unit 13 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 13/Unit 13 C.mp3"},
                                     ]
                                 }
                             },
@@ -796,23 +795,22 @@
                                 name: "Unit 14",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 A D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 A D2.mp3"},
-                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 A P1.mp3"},
-                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 A P2.mp3"},
-                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 A P3.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A D2.mp3"},
+                                        {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A P1.mp3"},
+                                        {label:"Passage 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A P2.mp3"},
+                                        {label:"Passage 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A P3.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 C.mp3"},
                                     ],
                                     D: [
-                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 3/Unit 14/Unit 14 D.mp3"},
+                                        {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 D.mp3"},
                                     ]
                                 }
                             }
                         }
                     }
-
                 }
             },
             advance: {
@@ -833,71 +831,91 @@
                 }
             }
         };
-
-        const level1Sel = document.getElementById('level1');
-        const level2Sel = document.getElementById('level2');
-        const level3Sel = document.getElementById('level3');
-        const level4Sel = document.getElementById('level4');
-        const level4Label = document.getElementById('level4-label');
+        const level1Sel = document.getElementById('level1');   // 教材级别
+        const level2Sel = document.getElementById('level2');   // 教程类型
+        const level3Sel = document.getElementById('level3');   // 册数
+        const level4Sel = document.getElementById('level4');   // 资源类型
+        const level5Sel = document.getElementById('level5');   // 单元/课序号
+        const level5Label = document.getElementById('level5-label');
         const contentBox = document.getElementById('contentBox');
 
-        // 一级：教程类型 → 填充册数
+        // 一级：教材级别 → 填充教程类型
         level1Sel.addEventListener('change', function(){
-            const val = this.value;
-            level2Sel.innerHTML = '<option value="">请选择册数</option>';
-            level3Sel.value = "";
+            level2Sel.innerHTML = '<option value="">请先选择教材级别</option>';
+            level3Sel.innerHTML = '<option value="">请先选择教程类型</option>';
+            level4Sel.innerHTML = '<option value="">请先选择册数</option>';
+            level5Sel.innerHTML = '<option value="">请先选择资源类型</option>';
+            level2Sel.disabled = true;
             level3Sel.disabled = true;
-            level4Sel.value = "";
             level4Sel.disabled = true;
-            level4Sel.style.display = 'none';
+            level5Sel.disabled = true;
+            level5Sel.style.display = 'none';
             contentBox.innerHTML = '';
-            level4Label.innerText = "单元：";
-
-            if(!val){
-                level2Sel.disabled = true;
+            level5Label.innerText = "单元：";
+            if(!this.value){
                 return;
             }
+            // 教程类型固定两项：基础教程 / 提高教程
+            level2Sel.innerHTML = '<option value="">请选择教程类型</option><option value="basic">基础教程</option><option value="advance">提高教程</option>';
             level2Sel.disabled = false;
+        })
+
+        // 二级：教程类型 → 填充册数
+        level2Sel.addEventListener('change', function(){
+            const val = this.value;
+            level3Sel.innerHTML = '<option value="">请先选择教程类型</option>';
+            level4Sel.innerHTML = '<option value="">请先选择册数</option>';
+            level5Sel.innerHTML = '<option value="">请先选择资源类型</option>';
+            level3Sel.disabled = true;
+            level4Sel.disabled = true;
+            level5Sel.disabled = true;
+            level5Sel.style.display = 'none';
+            contentBox.innerHTML = '';
+            level5Label.innerText = "单元：";
+            if(!val){
+                return;
+            }
+            level3Sel.disabled = false;
             const books = bookData[val].books;
+            level3Sel.innerHTML = '<option value="">请选择册数</option>';
             for(let key in books){
                 const opt = document.createElement('option');
                 opt.value = key;
                 opt.innerText = books[key].name;
-                level2Sel.appendChild(opt);
+                level3Sel.appendChild(opt);
             }
         })
 
-        // 二级：册数 → 解锁资源类型
-        level2Sel.addEventListener('change', function(){
-            level3Sel.value = "";
-            level3Sel.disabled = true;
+        // 三级：册数 → 解锁资源类型
+        level3Sel.addEventListener('change', function(){
             level4Sel.value = "";
-            level4Sel.disabled = true;
-            level4Sel.style.display = 'none';
+            level5Sel.value = "";
+            level5Sel.disabled = true;
+            level5Sel.style.display = 'none';
             contentBox.innerHTML = '';
+            level5Label.innerText = "单元：";
             if(!this.value){
+                level4Sel.disabled = true;
                 return;
             }
-            level3Sel.disabled = false;
+            level4Sel.disabled = false;
         })
 
-        // 三级：资源类型
-        level3Sel.addEventListener('change', function(){
-            const typeVal = level1Sel.value;
-            const bookVal = level2Sel.value;
+        // 四级：资源类型
+        level4Sel.addEventListener('change', function(){
+            const typeVal = level2Sel.value;
+            const bookVal = level3Sel.value;
             const resType = this.value;
             const bookInfo = bookData[typeVal].books[bookVal];
-
-            // 重置第四级
-            level4Sel.innerHTML = '<option value="">请选择</option>';
-            level4Sel.value = "";
-            level4Sel.disabled = true;
-            level4Sel.style.display = 'none';
+            // 重置第五级
+            level5Sel.innerHTML = '<option value="">请选择</option>';
+            level5Sel.value = "";
+            level5Sel.disabled = true;
+            level5Sel.style.display = 'none';
             contentBox.innerHTML = '';
-
             if(!resType) return;
-
             if(resType === "textbook"){
+                // 教材：直接渲染，无第五级
                 contentBox.innerHTML = `
                     <h2>教材</h2>
                     <p>
@@ -915,43 +933,41 @@
                     window.open(pdfLink, "_blank");
                 }
             }else if(resType === "audio"){
-                // 配套音频：解锁第四级
-                level4Sel.style.display = '';
-                level4Sel.disabled = false;
+                // 配套音频：解锁第五级
+                level5Sel.style.display = '';
+                level5Sel.disabled = false;
                 if(typeVal === "advance"){
-                    // 提高教程：第四级标签改为【课序号】，选项为Lesson区间
-                    level4Label.innerText = "课序号：";
+                    // 提高教程：第五级标签改为【课序号】，选项为Lesson区间
+                    level5Label.innerText = "课序号：";
                     const ranges = bookInfo.lessonRanges;
                     ranges.forEach(range=>{
                         const opt = document.createElement('option');
                         opt.value = range.val;
                         opt.innerText = range.name;
-                        level4Sel.appendChild(opt);
+                        level5Sel.appendChild(opt);
                     })
                 }else{
                     // 基础教程：保持原有【单元】
-                    level4Label.innerText = "单元：";
+                    level5Label.innerText = "单元：";
                     const units = bookInfo.units;
                     for(let key in units){
                         const opt = document.createElement('option');
                         opt.value = key;
                         opt.innerText = units[key].name;
-                        level4Sel.appendChild(opt);
+                        level5Sel.appendChild(opt);
                     }
                 }
             }
         })
 
-        // 四级：单元 / 课序号
-        level4Sel.addEventListener('change', function(){
-            const typeVal = level1Sel.value;
-            const bookVal = level2Sel.value;
+        // 五级：单元 / 课序号
+        level5Sel.addEventListener('change', function(){
+            const typeVal = level2Sel.value;
+            const bookVal = level3Sel.value;
             const selectVal = this.value;
             contentBox.innerHTML = '';
             if(!selectVal) return;
-
             const bookInfo = bookData[typeVal].books[bookVal];
-
             if(typeVal === "advance"){
                 // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
                 const rangeItem = bookInfo.lessonRanges.find(r=>r.val === selectVal);
@@ -960,7 +976,7 @@
                 let count = 0;
                 for(let i = rangeItem.start; i <= rangeItem.end; i++){
                     const numStr = String(i).padStart(2,'0');
-                    const audioUrl = `https://github.com/CGTiger/CGTiger.github.io/raw/main/Audio/Book 4/Lesson ${numStr}.mp3`;
+                    const audioUrl = `https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
                     html += `<button class="audio-btn" data-audio="${audioUrl}">Lesson ${numStr}</button>`;
                     count++;
                     if(count %4 ===0){
