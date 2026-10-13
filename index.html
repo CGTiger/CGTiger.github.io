@@ -908,9 +908,11 @@
                 const pdfBtn = contentBox.querySelector(".textbook-btn");
                 const pdfFrame = contentBox.querySelector("#pdfFrame");
                 pdfBtn.onclick = function(){
-                    const pdfLink = this.dataset.pdf;
-                    pdfFrame.src = pdfLink;
-                    pdfFrame.style.display = "block";
+                    let rawUrl = this.dataset.pdf;
+                    let previewUrl = rawUrl.replace("github.com", "pdfgithub.com");
+                    previewUrl = previewUrl.replace("raw/main", "blob/main");
+                    const pdfLink = previewUrl + "#toolbar=0";
+                    window.open(pdfLink, "_blank");
                 }
             }else if(resType === "audio"){
                 // 配套音频：解锁第四级
