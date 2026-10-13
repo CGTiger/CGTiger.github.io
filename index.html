@@ -898,7 +898,6 @@
             if(!resType) return;
 
             if(resType === "textbook"){
-                // 教材：直接渲染，无第四级，按钮点击打开github raw pdf在线预览
                 contentBox.innerHTML = `
                     <h2>教材</h2>
                     <p>
@@ -907,8 +906,9 @@
                 `;
                 const pdfBtn = contentBox.querySelector(".textbook-btn");
                 pdfBtn.onclick = function(){
-                    const pdfLink = this.dataset.pdf;
-                    window.open(pdfLink, "_blank");
+                    const rawUrl = encodeURIComponent(this.dataset.pdf);
+                    const previewUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${rawUrl}`;
+                    window.open(previewUrl, "_blank");
                 }
             }else if(resType === "audio"){
                 // 配套音频：解锁第四级
