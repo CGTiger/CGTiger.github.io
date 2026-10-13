@@ -863,9 +863,9 @@
         // 二级：教程类型 → 填充册数
         level2Sel.addEventListener('change', function(){
             const val = this.value;
-            level3Sel.innerHTML = '<option value="">请先选择教程类型</option>';
-            level4Sel.innerHTML = '<option value="">请先选择册数</option>';
-            level5Sel.innerHTML = '<option value="">请先选择资源类型</option>';
+            level3Sel.value = "";
+            level4Sel.value = "";
+            level5Sel.value = "";
             level3Sel.disabled = true;
             level4Sel.disabled = true;
             level5Sel.disabled = true;
