@@ -909,6 +909,8 @@
 
         // 三级：册数 → 解锁资源类型
         level3Sel.addEventListener('change', function(){
+            level4Sel.innerHTML = '<option value="">请先选择册数</option>';
+            level5Sel.innerHTML = '<option value="">请先选择资源类型</option>';
             level4Sel.value = "";
             level5Sel.value = "";
             level5Sel.disabled = true;
@@ -1015,9 +1017,9 @@
             if(!selectVal) return;
             if(levelVal === "beginner"){
                 const bookInfo = bookDataBeginner[typeVal].books[bookVal];
-            }else if(levelVal === "beginner"){
+            }else if(levelVal === "intermediate"){
                 const bookInfo = bookDataIntermediate[typeVal].books[bookVal];
-            }else if(levelVal === "beginner"){
+            }else if(levelVal === "proficient"){
                 const bookInfo = bookDataProficient[typeVal].books[bookVal];
             }
             if(levelVal === "intermediate" && typeVal === "advance"){
