@@ -1055,7 +1055,8 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        let url = "gh-proxy.com/" + item.url;
+                        let rawUrl = item.url.replace(/^https?:\/\//, '');
+                        const url = "https://gh-proxy.com/" + rawUrl;
                         html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
                     })
                     html += `</p>`;
