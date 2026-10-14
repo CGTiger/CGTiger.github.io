@@ -45,17 +45,17 @@
             <option value="proficient">高级</option>
         </select>
         <label>教程类型：</label>
-        <select id="level2">
+        <select id="level2" disabled>
             <option value="">请先选择教材级别</option>
             <option value="basic">基础教程</option>
             <option value="advance">提高教程</option>
         </select>
         <label>册数：</label>
-        <select id="level3">
+        <select id="level3" disabled>
             <option value="">请先选择教程类型</option>
         </select>
         <label>资源类型：</label>
-        <select id="level4">
+        <select id="level4" disabled>
             <option value="">请先选择册数</option>
             <option value="textbook">教材</option>
             <option value="audio">配套音频</option>
@@ -860,6 +860,7 @@
                 return;
             }
             level2Sel.disabled = false;
+            level2Sel.innerHTML += `<option value="basic">基础教程</option><option value="advance">提高教程</option>`;
         })
 
         // 二级：教程类型 → 填充册数
@@ -917,6 +918,7 @@
                 return;
             }
             level4Sel.disabled = false;
+            level4Sel.innerHTML += `<option value="textbook">教材</option><option value="audio">配套音频</option>`;
         })
 
         // 四级：资源类型
