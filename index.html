@@ -1086,12 +1086,13 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
+                        let rawUrl
                         if(item.url.includes("mp4")){
-                            let rawUrl = item.url.replace(/^https?:\/\//, '');
+                            rawUrl = item.url.replace(/^https?:\/\//, '');
                             const url = "https://gh-proxy.com/" + rawUrl;
                             html += `<button class="video-btn" data-video="${url}">${item.label}</button> `
                         }else{
-                            let rawUrl = item.url.replace(/^https?:\/\//, '');
+                            rawUrl = item.url.replace(/^https?:\/\//, '');
                             const url = "https://gh-proxy.com/" + rawUrl;
                             html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
                         }
@@ -1102,35 +1103,6 @@
             }
         })
 
-        // ========== 新增视频播放器逻辑（完全仿照音频代码） ==========
-        const videoContainer = document.getElementById('videoContainer');
-        const videoPlayer = document.getElementById('videoPlayer');
-        let currentVideoSrc = ""; // 记录当前正在播放的视频地址
-        
-        // 事件委托：动态生成的video-btn也能点击生效
-        document.addEventListener('click', function (e) {
-          if(e.target.classList.contains('video-btn')){
-            const videoSrc = e.target.dataset.video;
-        
-            // 判断：点击的就是当前正在播放的视频
-            if (videoSrc === currentVideoSrc && videoContainer.style.display === 'block') {
-              // 暂停，重置进度，隐藏播放器
-              videoPlayer.pause();
-              videoPlayer.currentTime = 0;
-              videoContainer.style.display = 'none';
-              currentVideoSrc = "";
-            } else {
-              // 加载新视频
-              videoPlayer.src = videoSrc;
-              currentVideoSrc = videoSrc;
-              videoContainer.style.display = 'block';
-              videoPlayer.load();
-              videoPlayer.play().catch(function (err) {
-                console.log("浏览器自动播放限制，请手动点击视频播放", err);
-              });
-            }
-          }
-        });
 
         // ========== 原有完整音频播放器逻辑，原样保留 ==========
         const audioContainer = document.getElementById('audioContainer');
@@ -1159,6 +1131,37 @@
                 }
             }
         });
+
+        // ========== 新增视频播放器逻辑（完全仿照音频代码） ==========
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        let currentVideoSrc = ""; // 记录当前正在播放的视频地址
+        
+        // 事件委托：动态生成的video-btn也能点击生效
+        document.addEventListener('click', function (e) {
+          if(e.target.classList.contains('video-btn')){
+            const videoSrc = e.target.dataset.video;
+        
+            // 判断：点击的就是当前正在播放的视频
+            if (videoSrc === currentVideoSrc && videoContainer.style.display === 'block') {
+              // 暂停，重置进度，隐藏播放器
+              videoPlayer.pause();
+              videoPlayer.currentTime = 0;
+              videoContainer.style.display = 'none';
+              currentVideoSrc = "";
+            } else {
+              // 加载新视频
+              videoPlayer.src = videoSrc;
+              currentVideoSrc = videoSrc;
+              videoContainer.style.display = 'block';
+              videoPlayer.load();
+              videoPlayer.play().catch(function (err) {
+                  console.log("浏览器自动播放限制，请手动点击视频播放", err);
+              });
+            }
+          }
+        });
+
         // 禁用右键菜单
 /*        document.addEventListener('contextmenu',e=>e.preventDefault());
         // 简单检测开发者工具打开（仅告警，无法彻底阻断）
