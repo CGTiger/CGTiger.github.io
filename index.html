@@ -1081,7 +1081,7 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        if(item.url.includes("mp4"){
+                        if(item.url.includes("mp4")){
                             let rawUrl = item.url.replace(/^https?:\/\//, '');
                             const url = "https://gh-proxy.com/" + rawUrl;
                             html += `<button class="video-btn" data-video="${url}">${item.label}</button> `
