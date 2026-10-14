@@ -1019,12 +1019,13 @@
             const selectVal = this.value;
             contentBox.innerHTML = '';
             if(!selectVal) return;
+            let bookInfo;
             if(levelVal === "beginner"){
-                const bookInfo = bookDataBeginner[typeVal].books[bookVal];
+                bookInfo = bookDataBeginner[typeVal].books[bookVal];
             }else if(levelVal === "intermediate"){
-                const bookInfo = bookDataIntermediate[typeVal].books[bookVal];
+                bookInfo = bookDataIntermediate[typeVal].books[bookVal];
             }else if(levelVal === "proficient"){
-                const bookInfo = bookDataProficient[typeVal].books[bookVal];
+                bookInfo = bookDataProficient[typeVal].books[bookVal];
             }
             if(levelVal === "intermediate" && typeVal === "advance"){
                 // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
