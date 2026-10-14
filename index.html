@@ -932,12 +932,13 @@
             const typeVal = level2Sel.value;
             const bookVal = level3Sel.value;
             const resType = this.value;
+            let bookInfo;
             if(levelVal === "beginner"){
-                const bookInfo = bookDataBeginner[typeVal].books[bookVal];
+                bookInfo = bookDataBeginner[typeVal].books[bookVal];
             }else if(levelVal === "intermediate"){
-                const bookInfo = bookDataIntermediate[typeVal].books[bookVal];
+                bookInfo = bookDataIntermediate[typeVal].books[bookVal];
             }else if(levelVal === "proficient"){
-                const bookInfo = bookDataProficient[typeVal].books[bookVal];
+                bookInfo = bookDataProficient[typeVal].books[bookVal];
             }
             // 重置第五级
             level5Sel.innerHTML = '<option value="">请选择</option>';
