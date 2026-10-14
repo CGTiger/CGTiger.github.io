@@ -10,6 +10,11 @@
             padding: 6px;
             font-size: 16px;
         }
+        .video-btn {
+            margin: 4px;
+            padding: 5px 8px;
+            cursor: pointer;
+        }
         .audio-btn {
             margin: 4px;
             padding: 5px 8px;
@@ -73,6 +78,7 @@
     <div id="audioContainer">
         <audio controls id="audioPlayer">        
     </div>
+    <div id="videoPlayerBox"></div>
     
     <script>
         // ========== 全部教材音频数据 ==========
@@ -810,7 +816,7 @@
                                         {label:"Passage 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 A P4.mp3"},
                                     ],
                                     C: [
-                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 C.mp3"},
+                                        {label:"Vocabulary & Phrases", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 C.mp4"},
                                     ],
                                     D: [
                                         {label:"Expanding Horizons", url:"https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 3/Unit 14/Unit 14 D.mp3"},
@@ -1075,15 +1081,30 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        let rawUrl = item.url.replace(/^https?:\/\//, '');
-                        const url = "https://gh-proxy.com/" + rawUrl;
-                        html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
+                        if(item.url.includes("mp4"){
+                            let rawUrl = item.url.replace(/^https?:\/\//, '');
+                            const url = "https://gh-proxy.com/" + rawUrl;
+                            html += `<button class="video-btn" data-video="${url}">${item.label}</button> `
+                        }else{
+                            let rawUrl = item.url.replace(/^https?:\/\//, '');
+                            const url = "https://gh-proxy.com/" + rawUrl;
+                            html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
+                        }
                     })
                     html += `</p>`;
                 }
                 contentBox.innerHTML = html;
             }
         })
+
+        document.querySelector('.video-btn').onclick = function(){
+            const raw = this.dataset.videoraw;
+            document.getElementById('videoPlayerBox').innerHTML = `
+            <video controls width="100%" preload="metadata">
+                <source src="${raw}" type="video/mp4">
+            </video>
+            `;
+        }
 
         // ========== 原有完整音频播放器逻辑，原样保留 ==========
         const audioContainer = document.getElementById('audioContainer');
