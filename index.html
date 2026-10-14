@@ -73,6 +73,7 @@
     
     <script>
         // ========== 全部教材音频数据 ==========
+        const bookDataBeginner = {};
         const bookDataIntermediate = {
             basic: {
                 name: "基础教程",
@@ -833,6 +834,7 @@
                 }
             }
         };
+        const bookDataProficient = {};
         const level1Sel = document.getElementById('level1');   // 教材级别
         const level2Sel = document.getElementById('level2');   // 教程类型
         const level3Sel = document.getElementById('level3');   // 册数
@@ -882,11 +884,11 @@
                 for (let key in books){
                     const opt = document.createElement('option');
                     opt.value = key;
-                    ope.innerText = books[key].name;
+                    opt.innerText = books[key].name;
                     level3Sel.appendChild(opt);
                 }
             }else if(levelVal === "intermediate"){
-                const books = bookDataInterdiamate[val].books;
+                const books = bookDataIntermediate[val].books;
                 for(let key in books){
                     const opt = document.createElement('option');
                     opt.value = key;
@@ -896,7 +898,7 @@
             }else if(levelVal === "proficient"){
                 const books = bookDataProficient[val].books;
                 for(let key in books){
-                    const books = bookDataProficient[val].books;
+                    const opt = document.createElement('option');
                     opt.value = key;
                     opt.innerText = books[key].name;
                     level3Sel.appendChild(opt);
@@ -939,13 +941,31 @@
             if(!resType) return;
             if(resType === "textbook"){
                 // 教材：直接渲染，无第五级
-                contentBox.innerHTML = `
-                    <h2>教材</h2>
-                    <p>
-                        <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookData[typeVal].name}-${bookInfo.name}</button>
-                    </p>
-                    <iframe id="pdfFrame" style="width:100%;height:80vh;display:none;border:1px solid #aaa;"></iframe>
-                `;
+                if(levelVal === "beginner"){
+                    contentBox.innerHTML = `
+                        <h2>教材</h2>
+                        <p>
+                            <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookDataBeginner[typeVal].name}-${bookInfo.name}</button>
+                        </p>
+                        <iframe id="pdfFrame" style="width:100%;height:80vh;display:none;border:1px solid #aaa;"></iframe>
+                    `;
+                }else if(levelVal === "intermediate"){
+                    contentBox.innerHTML = `
+                        <h2>教材</h2>
+                        <p>
+                            <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookDataIntermediate[typeVal].name}-${bookInfo.name}</button>
+                        </p>
+                        <iframe id="pdfFrame" style="width:100%;height:80vh;display:none;border:1px solid #aaa;"></iframe>
+                    `;
+                }else if(levelVal === "proficient"){
+                    contentBox.innerHTML = `
+                        <h2>教材</h2>
+                        <p>
+                            <button class="textbook-btn" data-pdf="${bookInfo.pdfUrl}">${bookDataProficient[typeVal].name}-${bookInfo.name}</button>
+                        </p>
+                        <iframe id="pdfFrame" style="width:100%;height:80vh;display:none;border:1px solid #aaa;"></iframe>
+                    `;
+                }
                 const pdfBtn = contentBox.querySelector(".textbook-btn");
                 const pdfFrame = contentBox.querySelector("#pdfFrame");
                 pdfBtn.onclick = function(){
@@ -991,8 +1011,14 @@
             const selectVal = this.value;
             contentBox.innerHTML = '';
             if(!selectVal) return;
-            const bookInfo = bookData[typeVal].books[bookVal];
-            if(const levelVal === "intermediate" && typeVal === "advance"){
+            if(levelVal === "beginner"){
+                const bookInfo = bookDataBeginner[typeVal].books[bookVal];
+            }else if(levelVal === "beginner"){
+                const bookInfo = bookDataIntermediate[typeVal].books[bookVal];
+            }else if(levelVal === "beginner"){
+                const bookInfo = bookDataProficient[typeVal].books[bookVal];
+            }
+            if(levelVal === "intermediate" && typeVal === "advance"){
                 // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
                 const rangeItem = bookInfo.lessonRanges.find(r=>r.val === selectVal);
                 if(!rangeItem) return;
