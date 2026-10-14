@@ -1055,7 +1055,7 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        const url = "gh-proxy.com/" + item.url;
+                        let url = "gh-proxy.com/" + item.url;
                         html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
                     })
                     html += `</p>`;
