@@ -1035,7 +1035,7 @@
                 let count = 0;
                 for(let i = rangeItem.start; i <= rangeItem.end; i++){
                     const numStr = String(i).padStart(2,'0');
-                    const audioUrl = `https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
+                    const audioUrl = `https://gh-proxy.com/github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
                     html += `<button class="audio-btn" data-audio="${audioUrl}">Lesson ${numStr}</button>`;
                     count++;
                     if(count %4 ===0){
@@ -1055,7 +1055,8 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        html += `<button class="audio-btn" data-audio="${item.url}">${item.label}</button> `
+                        const url = "gh-proxy.com/" + item.url;
+                        html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
                     })
                     html += `</p>`;
                 }
