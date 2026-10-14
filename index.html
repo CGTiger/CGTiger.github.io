@@ -1086,15 +1086,16 @@
                 for(let gName in groups){
                     html += `<p>${gName}：`;
                     groups[gName].forEach(item=>{
-                        let rawUrl
-                        if(item.url.includes("mp4")){
-                            rawUrl = item.url.replace(/^https?:\/\//, '');
-                            const url = "https://gh-proxy.com/" + rawUrl;
-                            html += `<button class="video-btn" data-video="${url}">${item.label}</button> `
+                        // 清洗url，去掉 https://
+                        let rawUrl = item.url.replace(/^https?:\/\//, '');
+                        // rawUrl = github.com/CGTiger/CGTiger.github.io/raw/main/xxx.mp3
+                        // 提取仓库内的文件相对路径
+                        let filePath = rawUrl.replace(/^github.com\/CGTiger\/CGTiger.github.io\/raw\/main\//,"");
+                        const fullUrl = `https://cdn.jsdelivr.net/gh/CGTiger/CGTiger.github.io@main/${filePath}`;
+                        if(/\.mp4$/i.test(item.url)){
+                        html += `<button class="video-btn" data-video="${fullUrl}">${item.label}</button> `;
                         }else{
-                            rawUrl = item.url.replace(/^https?:\/\//, '');
-                            const url = "https://gh-proxy.com/" + rawUrl;
-                            html += `<button class="audio-btn" data-audio="${url}">${item.label}</button> `
+                        html += `<button class="audio-btn" data-audio="${fullUrl}">${item.label}</button> `;
                         }
                     })
                     html += `</p>`;
