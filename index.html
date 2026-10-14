@@ -1056,9 +1056,9 @@
             }
         });
         // 禁用右键菜单
-        document.addEventListener('contextmenu',e=>e.preventDefault());
+/*        document.addEventListener('contextmenu',e=>e.preventDefault());
         // 简单检测开发者工具打开（仅告警，无法彻底阻断）
-/*        let devOpen = false;
+        let devOpen = false;
         const devCheck = function(){
             const threshold = 160;
             if(window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold){
