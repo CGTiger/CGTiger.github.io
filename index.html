@@ -40,13 +40,15 @@
         <label>教材级别：</label>
         <select id="level1">
             <option value="">请选择教材级别</option>
-            <option value="primary">初级</option>
+            <option value="beginner">初级</option>
             <option value="intermediate">中级</option>
-            <option value="advanced">高级</option>
+            <option value="proficient">高级</option>
         </select>
         <label>教程类型：</label>
         <select id="level2" disabled>
             <option value="">请先选择教材级别</option>
+            <option value="basic">基础教程</option>
+            <option value="advance">提高教程</option>
         </select>
         <label>册数：</label>
         <select id="level3" disabled>
@@ -66,12 +68,12 @@
     <div id="contentBox"></div>
     <!-- 底部音频播放器（原有代码完整保留） -->
     <div id="audioContainer">
-        <audio controls id="audioPlayer">
-        
+        <audio controls id="audioPlayer">        
     </div>
+    
     <script>
         // ========== 全部教材音频数据 ==========
-        const bookData = {
+        const bookDataIntermediate = {
             basic: {
                 name: "基础教程",
                 books: {
@@ -851,37 +853,54 @@
             level5Sel.disabled = true;
             level5Sel.style.display = 'none';
             contentBox.innerHTML = '';
-            level5Label.innerText = "单元：";
+            level5Label.innerText = "";
             if(!this.value){
                 return;
             }
-            // 教程类型固定两项：基础教程 / 提高教程
-            level2Sel.innerHTML = '<option value="">请选择教程类型</option><option value="basic">基础教程</option><option value="advance">提高教程</option>';
             level2Sel.disabled = false;
         })
 
         // 二级：教程类型 → 填充册数
         level2Sel.addEventListener('change', function(){
+            const levelVal = level1Sel.value;
             const val = this.value;
             level3Sel.innerHTML = '<option value="">请先选择教程类型</option>';
             level4Sel.innerHTML = '<option value="">请先选择册数</option>';
             level5Sel.innerHTML = '<option value="">请先选择资源类型</option>';
-            level3Sel.disabled = true;
             level4Sel.disabled = true;
             level5Sel.disabled = true;
             level5Sel.style.display = 'none';
             contentBox.innerHTML = '';
-            level5Label.innerText = "单元：";
+            level5Label.innerText = "";
             if(!val){
+                level3Sel.disabled = true;
                 return;
             }
             level3Sel.disabled = false;
-            const books = bookData[val].books;
-            for(let key in books){
-                const opt = document.createElement('option');
-                opt.value = key;
-                opt.innerText = books[key].name;
-                level3Sel.appendChild(opt);
+            if(levelVal === "beginner"){
+                const books = bookDataBeginner[val].books;
+                for (let key in books){
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    ope.innerText = books[key].name;
+                    level3Sel.appendChild(opt);
+                }
+            }else if(levelVal === "intermediate"){
+                const books = bookDataInterdiamate[val].books;
+                for(let key in books){
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.innerText = books[key].name;
+                    level3Sel.appendChild(opt);
+                }
+            }else if(levelVal === "proficient"){
+                const books = bookDataProficient[val].books;
+                for(let key in books){
+                    const books = bookDataProficient[val].books;
+                    opt.value = key;
+                    opt.innerText = books[key].name;
+                    level3Sel.appendChild(opt);
+                }
             }
         })
 
@@ -900,10 +919,17 @@
 
         // 四级：资源类型
         level4Sel.addEventListener('change', function(){
+            const levelVal = level1Sel.value;
             const typeVal = level2Sel.value;
             const bookVal = level3Sel.value;
             const resType = this.value;
-            const bookInfo = bookData[typeVal].books[bookVal];
+            if(levelVal === "beginner"){
+                const bookInfo = bookDataBeginner[typeVal].books[bookVal];
+            }else if(levelVal === "intermediate"){
+                const bookInfo = bookDataIntermediate[typeVal].books[bookVal];
+            }else if(levelVal === "proficient"){
+                const bookInfo = bookDataProficient[typeVal].books[bookVal];
+            }
             // 重置第五级
             level5Sel.innerHTML = '<option value="">请选择</option>';
             level5Sel.value = "";
@@ -959,13 +985,14 @@
 
         // 五级：单元 / 课序号
         level5Sel.addEventListener('change', function(){
+            const levelVal = level1Sel.value;
             const typeVal = level2Sel.value;
             const bookVal = level3Sel.value;
             const selectVal = this.value;
             contentBox.innerHTML = '';
             if(!selectVal) return;
             const bookInfo = bookData[typeVal].books[bookVal];
-            if(typeVal === "advance"){
+            if(const levelVal === "intermediate" && typeVal === "advance"){
                 // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
                 const rangeItem = bookInfo.lessonRanges.find(r=>r.val === selectVal);
                 if(!rangeItem) return;
@@ -1031,7 +1058,7 @@
         // 禁用右键菜单
         document.addEventListener('contextmenu',e=>e.preventDefault());
         // 简单检测开发者工具打开（仅告警，无法彻底阻断）
-        let devOpen = false;
+/*        let devOpen = false;
         const devCheck = function(){
             const threshold = 160;
             if(window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold){
@@ -1054,7 +1081,7 @@
             ){
                 e.preventDefault();
             }
-        });
+        });*/
     </script>
 </body>
 </html>
