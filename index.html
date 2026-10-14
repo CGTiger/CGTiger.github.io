@@ -78,7 +78,12 @@
     <div id="audioContainer">
         <audio controls id="audioPlayer">        
     </div>
-    <div id="videoPlayerBox"></div>
+    <!-- 视频播放器容器，默认隐藏 -->
+    <div id="videoContainer" style="display:none; margin:1rem 0;">
+      <video id="videoPlayer" controls width="100%" preload="metadata">
+        你的浏览器不支持HTML5视频播放
+      </video>
+    </div>
     
     <script>
         // ========== 全部教材音频数据 ==========
@@ -1097,14 +1102,35 @@
             }
         })
 
-        document.querySelector('.video-btn').onclick = function(){
-            const raw = this.dataset.videoraw;
-            document.getElementById('videoPlayerBox').innerHTML = `
-            <video controls width="100%" preload="metadata">
-                <source src="${raw}" type="video/mp4">
-            </video>
-            `;
-        }
+        // ========== 新增视频播放器逻辑（完全仿照音频代码） ==========
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        let currentVideoSrc = ""; // 记录当前正在播放的视频地址
+        
+        // 事件委托：动态生成的video-btn也能点击生效
+        document.addEventListener('click', function (e) {
+          if(e.target.classList.contains('video-btn')){
+            const videoSrc = e.target.dataset.video;
+        
+            // 判断：点击的就是当前正在播放的视频
+            if (videoSrc === currentVideoSrc && videoContainer.style.display === 'block') {
+              // 暂停，重置进度，隐藏播放器
+              videoPlayer.pause();
+              videoPlayer.currentTime = 0;
+              videoContainer.style.display = 'none';
+              currentVideoSrc = "";
+            } else {
+              // 加载新视频
+              videoPlayer.src = videoSrc;
+              currentVideoSrc = videoSrc;
+              videoContainer.style.display = 'block';
+              videoPlayer.load();
+              videoPlayer.play().catch(function (err) {
+                console.log("浏览器自动播放限制，请手动点击视频播放", err);
+              });
+            }
+          }
+        });
 
         // ========== 原有完整音频播放器逻辑，原样保留 ==========
         const audioContainer = document.getElementById('audioContainer');
