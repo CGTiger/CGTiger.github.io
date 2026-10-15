@@ -1066,7 +1066,7 @@
                 let count = 0;
                 for(let i = rangeItem.start; i <= rangeItem.end; i++){
                     const numStr = String(i).padStart(2,'0');
-                    const audioUrl = `https://fastly.jsdelivr.net/gh/CGTiger/CGTiger.github.io@/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
+                    const audioUrl = `https://fastly.jsdelivr.net/gh/CGTiger/CGTiger.github.io@main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
                     html += `<button class="audio-btn" data-audio="${audioUrl}">Lesson ${numStr}</button>`;
                     count++;
                     if(count %4 ===0){
@@ -1091,7 +1091,7 @@
                         // rawUrl = github.com/CGTiger/CGTiger.github.io/raw/main/xxx.mp3
                         // 提取仓库内的文件相对路径
                         let filePath = rawUrl.replace(/^github.com\/CGTiger\/CGTiger.github.io\/raw\/main\//,"");
-                        const fullUrl = `https://fastly.jsdelivr.net/gh/CGTiger/CGTiger.github.io@main/Intermediate/${filePath}`;
+                        const fullUrl = `https://fastly.jsdelivr.net/gh/CGTiger/CGTiger.github.io@main/${filePath}`;
                         if(/\.mp4$/i.test(item.url)){
                         html += `<button class="video-btn" data-video="${fullUrl}">${item.label}</button> `;
                         }else{
