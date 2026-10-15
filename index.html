@@ -100,8 +100,8 @@
                                 name: "Starter Unit",
                                 groups: {
                                     A: [
-                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D1.mp3"},
-                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D2.mp3"},
+                                        {label:"Conversation 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book 1/Starter Unit/Starter Unit A D1.mp3"},
+                                        {label:"Conversation 2", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book 1/Starter Unit/Starter Unit A D2.mp3"},
                                         {label:"Conversation 3", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D3.mp3"},
                                         {label:"Conversation 4", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20D4.mp3"},
                                         {label:"Passage 1", url:"https://github.com/CGTiger/CGTiger.github.io/raw/refs/heads/main/Intermediate/Audio/Book%201/Starter%20Unit/Starter%20Unit%20A%20P1.mp3"},
@@ -1066,7 +1066,7 @@
                 let count = 0;
                 for(let i = rangeItem.start; i <= rangeItem.end; i++){
                     const numStr = String(i).padStart(2,'0');
-                    const audioUrl = `https://cdn.jsdelivr.net/gh/CGTiger/CGTiger.github.io@/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
+                    const audioUrl = `https://fastly.jsdelivr.net/gh/CGTiger/CGTiger.github.io@/main/Intermediate/Audio/Book 4/Lesson ${numStr}.mp3`;
                     html += `<button class="audio-btn" data-audio="${audioUrl}">Lesson ${numStr}</button>`;
                     count++;
                     if(count %4 ===0){
