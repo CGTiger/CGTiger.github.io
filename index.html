@@ -914,11 +914,12 @@
                 return;
             }
             level3Sel.disabled = false;
+            let books;
             if(levelVal === "beginner"){
                 alert("初级教材数据尚未录入");
                 return;
             }else if(levelVal === "intermediate"){
-                const books = bookDataIntermediate[val].books;
+                books = bookDataIntermediate[val].books;
             }else if(levelVal === "proficient"){
                 alert("高级教材数据尚未录入");
                 return;
