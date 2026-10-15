@@ -915,29 +915,19 @@
             }
             level3Sel.disabled = false;
             if(levelVal === "beginner"){
-                const books = bookDataBeginner[val].books;
-                for (let key in books){
-                    const opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = books[key].name;
-                    level3Sel.appendChild(opt);
-                }
+                alert("初级教材数据尚未录入");
+                return;
             }else if(levelVal === "intermediate"){
                 const books = bookDataIntermediate[val].books;
-                for(let key in books){
-                    const opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = books[key].name;
-                    level3Sel.appendChild(opt);
-                }
             }else if(levelVal === "proficient"){
-                const books = bookDataProficient[val].books;
-                for(let key in books){
-                    const opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = books[key].name;
-                    level3Sel.appendChild(opt);
-                }
+                alert("高级教材数据尚未录入");
+                return;
+            }
+            for(let key in books){
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.innerText = books[key].name;
+                level3Sel.appendChild(opt);
             }
         })
 
@@ -965,11 +955,13 @@
             const resType = this.value;
             let bookInfo;
             if(levelVal === "beginner"){
-                bookInfo = bookDataBeginner[typeVal].books[bookVal];
+                alert("初级教材数据尚未录入");
+                return;
             }else if(levelVal === "intermediate"){
                 bookInfo = bookDataIntermediate[typeVal].books[bookVal];
             }else if(levelVal === "proficient"){
-                bookInfo = bookDataProficient[typeVal].books[bookVal];
+                alert("高级教材数据尚未录入");
+                return;
             }
             // 重置第五级
             level5Sel.innerHTML = '<option value="">请选择</option>';
@@ -1052,11 +1044,13 @@
             if(!selectVal) return;
             let bookInfo;
             if(levelVal === "beginner"){
-                bookInfo = bookDataBeginner[typeVal].books[bookVal];
+                alert("初级教材数据尚未录入");
+                return;
             }else if(levelVal === "intermediate"){
                 bookInfo = bookDataIntermediate[typeVal].books[bookVal];
             }else if(levelVal === "proficient"){
-                bookInfo = bookDataProficient[typeVal].books[bookVal];
+                alert("高级教材数据尚未录入");
+                return;
             }
             if(levelVal === "intermediate" && typeVal === "advance"){
                 // ========== 提高教程逻辑：课序号区间，3行×4个按钮 ==========
