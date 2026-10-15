@@ -1097,13 +1097,22 @@
 
 
         // ========== 原有完整音频播放器逻辑，原样保留 ==========
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
         const audioContainer = document.getElementById('audioContainer');
         const audioPlayer = document.getElementById('audioPlayer');
         let currentAudioSrc = ""; // 记录当前正在播放的音频地址
+        let currentVideoSrc = "";
         // 事件委托：动态生成的audio-btn也可以触发点击
         document.addEventListener('click', function (e) {
             if(e.target.classList.contains('audio-btn')){
                 const audioSrc = e.target.dataset.audio;
+                if(videoPlayer){
+                  videoPlayer.pause();
+                  videoPlayer.currentTime = 0;
+                  videoContainer.style.display = 'none';
+                  currentVideoSrc = "";
+                }
                 // 判断：点击的是当前正在播放的音频
                 if (audioSrc === currentAudioSrc && audioContainer.style.display === 'block') {
                     // 停止播放，重置，隐藏播放器
@@ -1133,7 +1142,12 @@
         document.addEventListener('click', function (e) {
           if(e.target.classList.contains('video-btn')){
             const videoSrc = e.target.dataset.video;
-        
+            if(audioPlayer){
+              audioPlayer.pause();
+              audioPlayer.currentTime = 0;
+              audioContainer.style.display = 'none';
+              currentAudioSrc = "";
+            }
             // 判断：点击的就是当前正在播放的视频
             if (videoSrc === currentVideoSrc && videoContainer.style.display === 'block') {
               // 暂停，重置进度，隐藏播放器
