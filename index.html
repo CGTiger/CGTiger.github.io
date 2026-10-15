@@ -1134,10 +1134,6 @@
         });
 
         // ========== 新增视频播放器逻辑（完全仿照音频代码） ==========
-        const videoContainer = document.getElementById('videoContainer');
-        const videoPlayer = document.getElementById('videoPlayer');
-        let currentVideoSrc = ""; // 记录当前正在播放的视频地址
-        
         // 事件委托：动态生成的video-btn也能点击生效
         document.addEventListener('click', function (e) {
           if(e.target.classList.contains('video-btn')){
