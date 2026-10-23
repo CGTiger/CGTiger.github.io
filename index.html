@@ -87,7 +87,23 @@
     
     <script>
         // ========== 全部教材音频数据 ==========
-        const bookDataBeginner = {};
+        const bookDataBeginner = {
+            all: {
+                name: "全一册",
+                books: {
+                    bookB: {
+                        name: "全一册",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Beginner/Textbook/Book B.pdf",
+                        lessonRanges: [
+                            {val:"01-12", name:"Lesson 01~12", start:1, end:12},
+                            {val:"13-24", name:"Lesson 13~24", start:13, end:24},
+                            {val:"25-36", name:"Lesson 25~36", start:25, end:36},
+                            {val:"37-48", name:"Lesson 37~48", start:37, end:48},
+                        ]
+                    }
+                }
+            }
+        };
         const bookDataIntermediate = {
             basic: {
                 name: "基础教程",
@@ -865,7 +881,7 @@
                 books: {
                     book4: {
                         name: "全一册",
-                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Textbook/Book 4.pdf",
+                        pdfUrl: "https://github.com/CGTiger/CGTiger.github.io/raw/main/Intermediate/Textbook/Book 4.pdf",
                         lessonRanges: [
                             {val:"01-12", name:"Lesson 01~12", start:1, end:12},
                             {val:"13-24", name:"Lesson 13~24", start:13, end:24},
@@ -904,7 +920,13 @@
                 return;
             }
             level2Sel.disabled = false;
-            level2Sel.innerHTML += `<option value="basic">基础教程</option><option value="advance">提高教程</option>`;
+            if(this.value === "beginner"){
+                level2Sel.innerHTML += `<option value="all">全一册</option>`;
+            }else if(this.value  === "intermediate"){
+                level2Sel.innerHTML += `<option value="basic">基础教程</option><option value="advance">提高教程</option>`;
+            }else if(this.value === "proficient"){
+                level2Sel.innerHTML += `<option value="basic">基础教程</option><option value="advance">提高教程</option>`;
+            }
         })
 
         // 二级：教程类型 → 填充册数
@@ -926,8 +948,7 @@
             level3Sel.disabled = false;
             let books;
             if(levelVal === "beginner"){
-                alert("初级教材数据尚未录入");
-                return;
+                books = bookDataBeginner[val].books;
             }else if(levelVal === "intermediate"){
                 books = bookDataIntermediate[val].books;
             }else if(levelVal === "proficient"){
